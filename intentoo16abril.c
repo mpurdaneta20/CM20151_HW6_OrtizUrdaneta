@@ -4,8 +4,8 @@
 #define G_GRAV 39.486
 float * get_memory(int n_points);
 
-void initialize_vel(float *vx, float *vy, float *vz, int n_points);
-void initialize_pos(float *x, float *y, float *z, int n_points);
+void vel_i(float *vx, float *vy, float *vz, int n_points);
+void pos_i(float *x, float *y, float *z, int n_points);
 float get_norma2(int i, int j);
 float get_ace(float m, float r_i, float r_j, int i , int j);
 void get_ace_x();
@@ -51,8 +51,8 @@ int main(void){
   mass = get_memory(n_points);
 
 
-  initialize_vel(vx,vy,vz, n_points);
-  initialize_pos(x,y,z,n_points);
+  vel_i(vx,vy,vz, n_points);
+  pos_i(x,y,z,n_points);
   // get_norma(x, y, z, n_points,r);
 
   get_ace_x();
@@ -63,7 +63,7 @@ int main(void){
 
 }
 
-void initialize_vel(float *vx, float *vy, float *vz, int n_points)
+void vel_i(float *vx, float *vy, float *vz, int n_points)
 {
   int i; 
   //FLOAT delta_theta;
@@ -99,7 +99,7 @@ void initialize_vel(float *vx, float *vy, float *vz, int n_points)
  vz[3] = vz_asteroide;
 
  }
-void initialize_pos(float *x, float *y, float *z, int n_points)
+void pos_i(float *x, float *y, float *z, int n_points)
 {
   int i; 
   //FLOAT delta_theta;
@@ -160,8 +160,6 @@ void initialize_pos(float *x, float *y, float *z, int n_points)
  		printf("Colision!");
  		return 0;
  	}
-
-
  }
 
 void get_ace_x(){
@@ -173,13 +171,11 @@ void get_ace_x(){
 	{
 		for(j=0;j<n_points;j++){
 
-
 			if(i!=j){
 
 				a_x[i] += get_ace(mass[j],x[i],x[j],i,j);
 				//a_y[i] += get_ace(mass[j],y[i],y[j],i,j);
 				//a_z[i] += get_ace(mass[j],z[i],z[j],i,j);
-				
 			}
 
 		}
@@ -203,12 +199,9 @@ void get_ace_y(){
 			if(i!=j){
 
 				a_y[i] += get_ace(mass[j],y[i],y[j],i,j);
-			
 			}
-
 		}	
 	}
-
 }
 
 void get_ace_z(){
@@ -231,10 +224,6 @@ void get_ace_z(){
 	}
 
 }
-
-
-
-
 
 float * get_memory(int n_points){
   float * x; 
