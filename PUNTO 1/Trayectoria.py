@@ -1,8 +1,10 @@
 # -*- coding: utf-8 -*-
 # <nbformat>3.0</nbformat>
+from matplotlib import*
+from pylab import*
+from matplotlib import figure
 
-import numpy as np
-import matplotlib as plt
+
 
 o1= np.loadtxt("orbitas-1yrs.txt", skiprows=1)
 xs = o1[:,0]
@@ -15,7 +17,7 @@ xa= o1[:,6]
 ya= o1[:,7]
 
 #Genera la grafica en 2D - Orbita en 1 año
-plt.figure(figsize=(15, 10))
+plt.figure()
 plt.plot (xs,ys,label=r"$Sol$")
 plt.plot (xl,yl,label=r"$Luna$")
 plt.plot(xt,yt,label=r"$Tierra$")
