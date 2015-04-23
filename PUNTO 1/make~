@@ -1,0 +1,13 @@
+all: 4body.x orbitas-1yr.txt orbitas-1000yr.txt orbitas-1yr.png orbitas-1000yr.png 
+ 
+orbitas-1000yrs.png: Trayectorias.py orbitas-1years.txt
+	python Trayectorias.py
+orbitas-1yrs.png: trayectorias.py orbitas-1years.txt
+orbitas-1000yrs.txt: 4body.x
+	./4body.x ic.txt 0.01 1000
+orbitas-1yrs.txt: 4body.x
+	./4body.x ic.txt 0.001 1
+4body.x: 4body.c
+	cc 4body.c -o 4body.x -lm
+clear:
+	rm -f *.png *.txt *x

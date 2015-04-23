@@ -85,6 +85,12 @@ float G;
 
 int main(int argc, char **argv)
 {
+  if(argc != 4)
+  {
+    printf("El número de parámetros es diferente de 3");
+    exit(1);
+  }
+
   float h;
   float t;
   FILE *ifp;
@@ -101,10 +107,10 @@ int main(int argc, char **argv)
     fprintf(stderr, "El archivo no esta, el archivo se fue!\n");
     exit(1);
   }
-
+ 
   /*Crear .txt que guardara las posiciones finales en x,y de cada astro*/
   char na[20];
-  sprintf(na, "orbitas-%dyr.txt",atoi(argv[3]));
+  sprintf(na, "orbitas-%dyrs.txt",atoi(argv[3]));
   ofp = fopen(na, mode2);
 
   if (ofp == NULL)
@@ -113,7 +119,7 @@ int main(int argc, char **argv)
     exit(1);
   }
   /*Aumenta la memoria de los punteros*/
-  int n_points=1000;
+  int n_points=1000000;
   xs = get_memory(n_points);
   ys = get_memory(n_points);
   zs = get_memory(n_points);
@@ -154,7 +160,7 @@ int main(int argc, char **argv)
   vz_a = get_memory(n_points);
 
   G= 39.42; 
-  //condiciones iniciales
+  
   initialize_pos(xs, ys, zs, xt, yt, zt, xl, yl, zl, xa, ya, za);
   initialize_vel(vx_s, vy_s,vz_s,vx_t, vy_t, vz_t,vx_l, vy_l, vz_l, vx_a, vy_a, vz_a);
 
