@@ -32,10 +32,11 @@ float vyDot_ast(int i, float *xs, float *ys, float *zs, float *xt, float *yt, fl
 float zDot_ast(int i, float *xs, float *ys, float *zs, float *xt, float *yt, float *zt, float *xl, float *yl, float *zl, float *xa, float *ya, float *za, float *vz_a);
 float vzDot_ast(int i, float *xs, float *ys, float *zs, float *xt, float *yt, float *zt, float *xl, float *yl, float *zl, float *xa, float *ya, float *za, float *vz_a);
 
-void initialize_pos(float *xs, float *ys, float *zs, float *xt, float *yt, float *zt, float *xl, float *yl, float *zl, float *xa, float *ya, float *za);
-void initialize_vel(float *vx_s, float *vy_s, float *vz_s, float *vx_t, float *vy_t, float *vz_t, float *vx_l, float *vy_l, float *vz_l, float *vx_a, float *vy_a, float *vz_a);
+// void initialize_pos(float *xs, float *ys, float *zs, float *xt, float *yt, float *zt, float *xl, float *yl, float *zl, float *xa, float *ya, float *za);
+// void initialize_vel(float *vx_s, float *vy_s, float *vz_s, float *vx_t, float *vy_t, float *vz_t, float *vx_l, float *vy_l, float *vz_l, float *vx_a, float *vy_a, float *vz_a);
 
 float RungeKutta(int d, float h);
+float *IC;
 /*Posicion de todas las particulas*/
 float *xs;
 float *xl;
@@ -119,7 +120,9 @@ int main(int argc, char **argv)
     exit(1);
   }
   /*Aumenta la memoria de los punteros*/
-  int n_points=1000000;
+  int n_points=100000;
+  float ictxt=29;
+  IC = get_memory(ictxt);
   xs = get_memory(n_points);
   ys = get_memory(n_points);
   zs = get_memory(n_points);
@@ -160,9 +163,51 @@ int main(int argc, char **argv)
   vz_a = get_memory(n_points);
 
   G= 39.42; 
-  
-  initialize_pos(xs, ys, zs, xt, yt, zt, xl, yl, zl, xa, ya, za);
-  initialize_vel(vx_s, vy_s,vz_s,vx_t, vy_t, vz_t,vx_l, vy_l, vz_l, vx_a, vy_a, vz_a);
+
+  char line[20];
+
+      int i;
+      for(i=0; i<28; i++){
+        fgets(line, sizeof(line), ifp);
+        IC[i]=atof(line);
+      } 
+
+ /*Inicializacion de datos*/
+   xs[0] = IC[0];
+   xt[0] = IC[7];
+   xl[0] = IC[14];
+   xa[0] = IC[21];
+
+   ys[0] = IC[1];
+   yt[0] = IC[8];
+   yl[0] = IC[15];
+   ya[0] = IC[22];
+
+   zs[0] = IC[2];
+   zt[0] = IC[9];
+   zl[0] = IC[16];
+   za[0] = IC[23];
+
+   ms = IC[6];
+   mt = IC[13];
+   ml = IC[20];
+   ma = IC[27];
+
+   vx_s[0]=IC[3];
+   vy_s[0]=IC[4];
+   vz_s[0]=IC[5];
+
+   vx_t[0] = IC[10];
+   vy_t[0] = IC[11]; 
+   vz_t[0] = IC[12]; 
+
+   vx_l[0] = IC[17];
+   vy_l[0] = IC[18];
+   vz_l[0] = IC[19];
+
+   vx_a[0] = IC[24]; 
+   vy_a[0] = IC[25]; 
+   vz_a[0] = IC[26];
 
   int d;
   float N;
@@ -180,76 +225,6 @@ int main(int argc, char **argv)
   fclose(ifp);
   fclose(ofp);
 }
-
-
-void initialize_vel(float *vx_s, float *vy_s, float *vz_s, float *vx_t, float *vy_t, float *vz_t, float *vx_l, float *vy_l, float *vz_l, float *vx_a, float *vy_a, float *vz_a)
-{
-  float vx_sol=0;
-  float vy_sol=0;
-  float vz_sol=0;
-  float vx_tierra=0;
-  float vy_tierra=6.324;
-  float vz_tierra=0;
-  float vx_luna=0;
-  float vy_luna= 6.54; //se le añade la velocidad de la tierra con el fin de que siga la orbita de la tierra
-  float vz_luna=0;
-  float vx_asteroide=337.3;
-  float vy_asteroide=0;
-  float vz_asteroide=6316;
-
-   vx_s[0]=vx_sol;
-   vy_s[0]=vy_sol;
-   vz_s[0]=vz_sol;
-
-   vx_t[0] = vx_tierra;
-   vy_t[0] = vy_tierra; 
-   vz_t[0] = vz_tierra; 
-
-   vx_l[0] = vx_luna;
-   vy_l[0] = vy_luna;
-   vz_l[0] = vz_luna;
-
-   vx_a[0] = vx_asteroide; 
-   vy_a[0] = vy_asteroide; 
-   vz_a[0] = vz_asteroide;
- }
-// function definitions
-void initialize_pos(float *xs, float *ys, float *zs, float *xt, float *yt, float *zt, float *xl, float *yl, float *zl, float *xa, float *ya, float *za)
-{
-  float x_sol=0;
-  float y_sol=0;
-  float z_sol=0;
-  float x_tierra=1;
-  float y_tierra=0;
-  float z_tierra=0;
-  float x_luna=1.0026;
-  float y_luna=0;
-  float z_luna=0;
-  float x_asteroide=1;
-  float y_asteroide=0.096;
-  float z_asteroide=0;
-
-   xs[0] = x_sol;
-   xt[0] = x_tierra;
-   xl[0] = x_luna;
-   xa[0] = x_asteroide;
-
-   ys[0] = y_sol;
-   yt[0] = y_tierra;
-   yl[0] = y_luna;
-   ya[0] = y_asteroide;
-
-   zs[0] = z_sol;
-   zt[0] = z_tierra;
-   zl[0] = z_luna;
-   za[0] = z_asteroide;
-
-   ms = 1;
-   mt = 0.000003003;
-   ml = 0.00000003695;
-   ma = 0,00000000005;
-
- }
 
 /*Funciones xDot y vDot del sol*/
 float xDot_sol(int i, float *xs, float *ys, float *zs, float *xt, float *yt, float *zt, float *xl, float *yl, float *zl, float *xa, float *ya, float *za, float *vx_s){
